@@ -1,0 +1,33 @@
+<h1 id="vscodemarkdown">基于VsCode打造Markdown编辑器</h1>
+<h2 id="vscode">安装VsCode</h2>
+<p>下载地址：<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></p>
+<h2 id="">安装插件</h2>
+<ol>
+<li><p>markdownlint<br />
+用来检测markdown格式是否正确，给出修改的提示。<br />
+微调一下配置，通过菜单 <code>文件-&gt;首选项-&gt;用户设置</code> 打开配置文件后输入如下内容：</p>
+<pre><code class="json language-json">// 将设置放入此文件中以覆盖默认设置
+{
+    "markdownlint.config": {
+        "default": true,                //继承默认设置
+        "MD009": {"br_spaces": 2},      //尾部强制换行的两个空格不作为错误
+        "MD013": false                  //不强制每行80字符以内
+    }
+}
+</code></pre></li>
+<li><p>paste image<br />
+可以直接从剪贴板粘贴图片，方便截屏后插入markdown文件。</p></li>
+<li><p>vscode-icons<br />
+文件图标，安装后通过 <code>文件-&gt;首选项-&gt;文件图标主题-&gt;VSCode Icons</code> 启用</p></li>
+<li><p>vim<br />
+在编辑器中启用VIM的编辑操作。（习惯了VIM高效）</p></li>
+</ol>
+<h2 id="markdown">编辑Markdown文件</h2>
+<ol>
+<li>打开md文件</li>
+<li>按照Markdown语法输入内容，如果格式不对会有提示，按照提示修改即可。</li>
+</ol>
+<h2 id="-1">附录</h2>
+<ol>
+<li>Markdown语法说明 <a href="https://github.com/adam-p/markdown-here/wiki">https://github.com/adam-p/markdown-here/wiki</a></li>
+</ol>
