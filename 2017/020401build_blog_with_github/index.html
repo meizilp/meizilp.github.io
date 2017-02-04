@@ -38,14 +38,13 @@ README.md               #首页内容，通过repo页面访问时自动显示
 </ol>
 <h3 id="-6">发布文章</h3>
 <ol>
-<li>将文章的markdown文件转换为html。
-可以通过showdown转换。<br />
-<code>sh
-npm install -g showdown<br />
+<li><p>将文章的markdown文件转换为html。<br />
+可以通过showdown转换。  </p>
+<pre><code class="sh language-sh">npm install -g showdown  
 showdown makehtml -i README.md -o index.html
-</code></li>
-<li>根目录的README.md增加文章链接，并重新生成html。</li>
-<li>将新创建的文件加入repo，commit之后push到github。</li>
+</code></pre></li>
+<li><p>根目录的README.md增加文章链接，并重新生成html。</p></li>
+<li><p>将新创建的文件加入repo，commit之后push到github。</p></li>
 </ol>
 <h3 id="todo">TODO</h3>
 <ul>

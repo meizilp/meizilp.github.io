@@ -43,12 +43,14 @@ README.md               #首页内容，通过repo页面访问时自动显示
 
 ### 发布文章
 
-1. 将文章的markdown文件转换为html。
+1. 将文章的markdown文件转换为html。  
     可以通过showdown转换。  
+
     ```sh
     npm install -g showdown  
     showdown makehtml -i README.md -o index.html
     ```
+
 1. 根目录的README.md增加文章链接，并重新生成html。
 1. 将新创建的文件加入repo，commit之后push到github。
 
