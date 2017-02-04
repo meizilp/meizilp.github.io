@@ -1,0 +1,53 @@
+<h1 id="github">基于Github的博客方案</h1>
+<h2 id="">特点</h2>
+<ul>
+<li>托管在Github上，省心</li>
+<li>使用Git做版本管理，可控</li>
+<li>页面简洁，舒服</li>
+<li>使用Markdown写作，高效</li>
+</ul>
+<h2 id="-1">基本需求</h2>
+<ul>
+<li>懂得基本Git操作</li>
+<li>会用Markdown写作</li>
+<li>懂得NodeJs基础操作</li>
+<li>有Github账号</li>
+</ul>
+<h2 id="-2">方案介绍</h2>
+<h3 id="-3">目录结构</h3>
+<pre><code class="sh language-sh">index.html              #通过域名访问时的首页，由README.md生成
+README.md               #首页内容，通过repo页面访问时自动显示
+2017                    #文章归档目录，以年份组织
+  ├─020400about         #包含一篇文章所有资源的目录。
+  │      index.html     #通过域名访问时的文章入口，由文章的README.md生成
+  │      README.md      #通过repo页面访问时文章的内容
+</code></pre>
+<h3 id="-4">访问入口</h3>
+<ol>
+<li>通过Github的repo浏览页面访问<br />
+示例：<a href="https://github.com/meizilp/meizilp.github.io">https://github.com/meizilp/meizilp.github.io</a><br />
+此时README.md中的内容会被自动呈现出来。</li>
+<li>通过username.github.io访问<br />
+示例：<a href="https://meizilp.github.io">https://meizilp.github.io</a><br />
+此时index.html中的内容会被呈现出来。</li>
+</ol>
+<h3 id="-5">写文章</h3>
+<ol>
+<li>按照目录命名规则(目录名为 &lt;月份>&lt;日期>&lt;序号>&lt;文章标题>)创建目录。</li>
+<li>创建README.md文件，并编写内容。</li>
+</ol>
+<h3 id="-6">发布文章</h3>
+<ol>
+<li>将文章的markdown文件转换为html。
+可以通过showdown转换。
+```sh
+npm install -g showdown 
+showdown makehtml -i README.md -o index.html
+````</li>
+<li>根目录的README.md增加文章链接，并重新生成html。</li>
+<li>将新创建的文件加入repo，commit之后push到github。</li>
+</ol>
+<h3 id="todo">TODO</h3>
+<ul>
+<li>编写node脚本自动执行生成及发布的操作</li>
+</ul>
