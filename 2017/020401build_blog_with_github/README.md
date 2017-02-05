@@ -40,6 +40,7 @@ README.md               #首页内容，通过repo页面访问时自动显示
 
 1. 按照目录命名规则(目录名为 <月份><日期><序号><文章标题>)创建目录。
 1. 创建README.md文件，并编写内容。(可以参见[《基于VsCode打造Markdown编辑器》](../020402markdown_editor_vscode) )
+1. 引入git flow版本管理模型后，每篇文章可以开一个feature分支来写。
 
 ### 发布文章
 
