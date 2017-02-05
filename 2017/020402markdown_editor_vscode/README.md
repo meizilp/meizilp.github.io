@@ -35,7 +35,8 @@
 
 ## 附录
 
-1. Markdown语法说明 <https://github.com/adam-p/markdown-here/wiki>
+### Markdown语法说明 <https://github.com/adam-p/markdown-here/wiki>
+
     * #标题，几个#就是几级标题
     * 强制换行，尾部加2个空格
     * `*斜体*`,`**粗体**`
@@ -44,8 +45,14 @@
     * 内嵌代码：符号``，代码块：3个``符号
     * 链接：`[链接名称](链接url)`；或者直接`<链接url>`；图片链接`![]()`
     * 水平分割先：三个-
-    * 表格：看上面链接
-1. markdownlint规则 <https://github.com/DavidAnson/markdownlint/blob/v0.3.1/doc/Rules.md>
+    * 表格：
+        |第一列标题|第二列|第三列|
+        |-|-|-|
+        |第一列内容|第二列内容|第三列内容|
+        以|分割；第二行必须要；第二行还可以加入:来设置对齐模式。
+
+### markdownlint规则 <https://github.com/DavidAnson/markdownlint/blob/v0.3.1/doc/Rules.md>
+
     * MD001 Header层级应依次递增（举例：从#直接到###就是跳过了第2层级的header。当然同一层级header还是可以有多个的）
     * MD002 第一个Header应该是#（也就是从最顶级header开始）
     * MD003 Header样式不要混用（都用#好了，还统一）

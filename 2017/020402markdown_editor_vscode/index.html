@@ -28,55 +28,59 @@
 <li>按照Markdown语法输入内容，如果格式不对会有提示，按照提示修改即可(格式不必专门记，日常校正几次就记住了)。</li>
 </ol>
 <h2 id="-1">附录</h2>
-<ol>
-<li>Markdown语法说明 <a href="https://github.com/adam-p/markdown-here/wiki">https://github.com/adam-p/markdown-here/wiki</a><ul>
-<li>#标题，几个#就是几级标题</li>
-<li>强制换行，尾部加2个空格</li>
-<li><code>*斜体*</code>,<code>**粗体**</code></li>
-<li>列表：无序*开头、有序数字加.开头</li>
-<li>块引用：>开头</li>
-<li>内嵌代码：符号<code>，代码块：3个</code>符号</li>
-<li>链接：<code>[链接名称](链接url)</code>；或者直接<code>&lt;链接url&gt;</code>；图片链接<code>![]()</code></li>
-<li>水平分割先：三个-</li>
-<li>表格：看上面链接</li></ul></li>
-<li>markdownlint规则 <a href="https://github.com/DavidAnson/markdownlint/blob/v0.3.1/doc/Rules.md">https://github.com/DavidAnson/markdownlint/blob/v0.3.1/doc/Rules.md</a><ul>
-<li>MD001 Header层级应依次递增（举例：从#直接到###就是跳过了第2层级的header。当然同一层级header还是可以有多个的）</li>
-<li>MD002 第一个Header应该是#（也就是从最顶级header开始）</li>
-<li>MD003 Header样式不要混用（都用#好了，还统一）</li>
-<li>MD004 <strong>无序</strong>列表样式要统一（不要*+-混着用，就选一个用）</li>
-<li>MD005 同级列表项缩进要一致（都用同样数量的空格）</li>
-<li>MD006 顶级列表要从行首开始（也就是不是子项不要缩进；有序列表中嵌套无序子列表时，无序自列表要用4个空格开头）</li>
-<li>MD007 <strong>无序</strong>列表项缩进要用2个空格缩进（不要用tab也不要用不是2个数量的空格）</li>
-<li>MD009 尾部不要有多余的空格（如果尾部需要2个空格强制换行，那么在配置文件中声明例外）</li>
-<li>MD010 不要用tab缩进（改成用多个空格或vscode可以自动把tab转为多个空格）</li>
-<li>MD011 链接格式的()和[]不要用反了（vscode通过link代码片段直接插入不会出错）</li>
-<li>MD012 不要有多个连续的空行（默认就允许1个空行，如果想调整就修改配置文件）</li>
-<li>MD013 每行长度限制80个字符（可以通过配置文件禁用这条）</li>
-<li>MD014 shell脚本代码中如果不包含输出，那么命令前不要带上$符号（免得用户连$都当作命令的一部分；如果有输出那么带上$符号，可以区分开命令和输出）</li>
-<li>MD018 atx风格的header行，#符号后面要有空格和header的内容隔开（不要#直接连着内容）</li>
-<li>MD019 atx风格的header行，#符号后面只要1个空格和内容隔开（不要多个空格）</li>
-<li>MD020 使用closed atx风格的header尾部#前没空格（不要用这个风格的header）</li>
-<li>MD021 使用closed atx风格的header尾部#前多个空格（不要用这个风格的header）</li>
-<li>MD022 Header前后都应该有空行（加上空行更美观）</li>
-<li>MD023 Header必须在行首开始</li>
-<li>MD024 多个header有同样的内容（改成不一样的，方便锚点）</li>
-<li>MD025 一个文档中只能有一个一级header（也就是只能有一个#)</li>
-<li>MD026 Header尾部不要有标点符号（.,,:!?等等）</li>
-<li>MD027 >引用符号后只要1个空格</li>
-<li>MD028 >引用块中不要有空行</li>
-<li>MD029 有序列表的前缀都用1.或者要有序（都用1.好了）</li>
-<li>MD030 列表符号和内容之间用1个空格分开</li>
-<li>MD031 代码块前后应该有空行环绕（这样缩进的代码块才能被识别出来）</li>
-<li>MD032 列表前后应该有空行</li>
-<li>MD033 不要直接内嵌HTML内容</li>
-<li>MD034 不要直接嵌入链接</li>
-<li>MD035 使用统一的水平割线风格（就用---了）</li>
-<li>MD036 不要滥用强调(**)代替Header(#) (该用Header就用header)</li>
-<li>MD037 强调符号和内容之间不要有空格</li>
-<li>MD038 内嵌代码``和代码内容之间不要有空格</li>
-<li>MD039 链接<code>[]()</code>括号和内容之间不要有空格</li>
-<li>MD040 代码块应指明语言（不知道就写text）</li>
-<li>MD041 文件第一行应该是一级标题（如果不习惯可以禁用了）</li>
-<li>MD042 链接应该有内容</li>
-<li>MD043 （犯了这个错误再研究）</li></ul></li>
-</ol>
+<h3 id="markdownhttpsgithubcomadampmarkdownherewiki">Markdown语法说明 <a href="https://github.com/adam-p/markdown-here/wiki">https://github.com/adam-p/markdown-here/wiki</a></h3>
+<pre><code>* #标题，几个#就是几级标题
+* 强制换行，尾部加2个空格
+* `*斜体*`,`**粗体**`
+* 列表：无序*开头、有序数字加.开头
+* 块引用：&gt;开头
+* 内嵌代码：符号``，代码块：3个``符号
+* 链接：`[链接名称](链接url)`；或者直接`&lt;链接url&gt;`；图片链接`![]()`
+* 水平分割先：三个-
+* 表格：
+    |第一列标题|第二列|第三列|
+    |-|-|-|
+    |第一列内容|第二列内容|第三列内容|
+    以|分割；第二行必须要；第二行还可以加入:来设置对齐模式。
+</code></pre>
+<h3 id="markdownlinthttpsgithubcomdavidansonmarkdownlintblobv031docrulesmd">markdownlint规则 <a href="https://github.com/DavidAnson/markdownlint/blob/v0.3.1/doc/Rules.md">https://github.com/DavidAnson/markdownlint/blob/v0.3.1/doc/Rules.md</a></h3>
+<pre><code>* MD001 Header层级应依次递增（举例：从#直接到###就是跳过了第2层级的header。当然同一层级header还是可以有多个的）
+* MD002 第一个Header应该是#（也就是从最顶级header开始）
+* MD003 Header样式不要混用（都用#好了，还统一）
+* MD004 **无序**列表样式要统一（不要*+-混着用，就选一个用）
+* MD005 同级列表项缩进要一致（都用同样数量的空格）
+* MD006 顶级列表要从行首开始（也就是不是子项不要缩进；有序列表中嵌套无序子列表时，无序自列表要用4个空格开头）
+* MD007 **无序**列表项缩进要用2个空格缩进（不要用tab也不要用不是2个数量的空格）
+* MD009 尾部不要有多余的空格（如果尾部需要2个空格强制换行，那么在配置文件中声明例外）
+* MD010 不要用tab缩进（改成用多个空格或vscode可以自动把tab转为多个空格）
+* MD011 链接格式的()和[]不要用反了（vscode通过link代码片段直接插入不会出错）
+* MD012 不要有多个连续的空行（默认就允许1个空行，如果想调整就修改配置文件）
+* MD013 每行长度限制80个字符（可以通过配置文件禁用这条）
+* MD014 shell脚本代码中如果不包含输出，那么命令前不要带上$符号（免得用户连$都当作命令的一部分；如果有输出那么带上$符号，可以区分开命令和输出）
+* MD018 atx风格的header行，#符号后面要有空格和header的内容隔开（不要#直接连着内容）
+* MD019 atx风格的header行，#符号后面只要1个空格和内容隔开（不要多个空格）
+* MD020 使用closed atx风格的header尾部#前没空格（不要用这个风格的header）
+* MD021 使用closed atx风格的header尾部#前多个空格（不要用这个风格的header）
+* MD022 Header前后都应该有空行（加上空行更美观）
+* MD023 Header必须在行首开始
+* MD024 多个header有同样的内容（改成不一样的，方便锚点）
+* MD025 一个文档中只能有一个一级header（也就是只能有一个#)
+* MD026 Header尾部不要有标点符号（.,,:!?等等）
+* MD027 &gt;引用符号后只要1个空格
+* MD028 &gt;引用块中不要有空行
+* MD029 有序列表的前缀都用1.或者要有序（都用1.好了）
+* MD030 列表符号和内容之间用1个空格分开
+* MD031 代码块前后应该有空行环绕（这样缩进的代码块才能被识别出来）
+* MD032 列表前后应该有空行
+* MD033 不要直接内嵌HTML内容
+* MD034 不要直接嵌入链接
+* MD035 使用统一的水平割线风格（就用---了）
+* MD036 不要滥用强调(**)代替Header(#) (该用Header就用header)
+* MD037 强调符号和内容之间不要有空格
+* MD038 内嵌代码``和代码内容之间不要有空格
+* MD039 链接`[]()`括号和内容之间不要有空格
+* MD040 代码块应指明语言（不知道就写text）
+* MD041 文件第一行应该是一级标题（如果不习惯可以禁用了）
+* MD042 链接应该有内容
+* MD043 （犯了这个错误再研究）
+</code></pre>
