@@ -1,0 +1,33 @@
+<h1 id="gitflowavhversion">Git flow(AVH version)版本管理模型研究</h1>
+<p>项目越来越大，分支越开越多，新特性在开发，线上bug要修复，代码版本脑子都记不过来了，
+针对这些问题，基于Git版本管理出现了一些版本管理模型，Git flow就是其中的一种。</p>
+<h2 id="">模型简介</h2>
+<p>起源：<a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a><br />
+AVH version:<a href="https://github.com/petervanderdoes/gitflow-avh/wiki">https://github.com/petervanderdoes/gitflow-avh/wiki</a></p>
+<ol>
+<li>master分支：生产版本分支<br />
+起初我们在master上走向胜利。<br />
+<img src="flow001.png" alt="" /></li>
+<li>develop分支：特性集成测试分支<br />
+后来我们说要测试后发布才能保证质量，所以开个develop分支在这上面修改了再发布。<br />
+<img src="flow002.png" alt="" /></li>
+<li>feature分支：新特性分支<br />
+你改我也改，你要merge到master了，我才改了一半，所以分家吧，互不干扰。
+<img src="flow003.png" alt="" /></li>
+<li>bugfix分支：bug修复分支<br />
+develop上集成测试发现bug了，开个分支修复了合并回develop。
+<img src="flow004.png" alt="" /></li>
+<li>release分支：预发布分支<br />
+要发布版本了，develop上冻结，但又有新特性等待合并测试，
+再分家，发布前的工作单独在一个分支上做，修改都合并到develop上，
+确认准备完毕后合并到master上正式发布。
+<img src="flow005.png" alt="" /></li>
+<li>hotfix分支：紧急修复分支<br />
+线上用户反馈问题了，要紧急修复，基于master开分支修复后合并到master和develop。
+<img src="flow006.png" alt="" /></li>
+<li>support分支：长期支持分支<br />
+终于要升级到2.0了，但是还有用户在1.9上反馈问题，开个分支单独维护，不再合并到2.0上来。
+<img src="flow007.png" alt="" /></li>
+</ol>
+<p>PS:<a href="git flow.vsdx">原图</a></p>
+<h2 id="gitflow">Git flow 辅助命令</h2>

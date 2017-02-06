@@ -1,5 +1,9 @@
 # Meizilp's homepage
 
+## 2017年2月6日
+
+1. [Git flow(AVH)版本管理模型研究](2017/020502learn_gitflow)
+
 ## 2017年2月5日
 
 1. [使用Syncthing搭建私有云](2017/020503syncthing)
