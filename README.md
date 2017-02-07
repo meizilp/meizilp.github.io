@@ -5,6 +5,8 @@
 ## 2017年2月7日
 
 1. [Typescript入门](2017/020501typescript_beginer)
+1. [Typescript入门-Typescript开发环境搭建（Windows)](2017/020501typescript_beginer/beginer02)
+1. [Typescript入门-代码编辑器VSCode](2017/020501typescript_beginer/beginer03)
 
 ## 2017年2月6日
 

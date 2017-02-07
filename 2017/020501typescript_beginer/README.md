@@ -6,6 +6,7 @@
 
 ## 1. Markdown介绍
 
+学习markdown方便在学习的过程中快速记录学习过程。  
 参见：[《基于VsCode打造Markdown编辑器》](../020402markdown_editor_vscode)
 
 ## 2. 开发环境搭建(Windows)
@@ -13,6 +14,8 @@
 见：[《Typescript开发环境搭建（Windows) 》](beginer02)
 
 ## 3. 代码编辑器VSCode
+
+见：[《代码编辑器VSCode》](beginer03)
 
 ## 4. 代码管理-Git
 
