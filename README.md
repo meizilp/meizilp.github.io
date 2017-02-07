@@ -2,6 +2,10 @@
 
 <https://github.com/meizilp/meizilp.github.io>
 
+## 2017年2月7日
+
+1. [Typescript入门](2017/020501typescript_beginer)
+
 ## 2017年2月6日
 
 1. [Git flow(AVH)版本管理模型研究](2017/020502learn_gitflow)

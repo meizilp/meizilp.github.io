@@ -6,7 +6,11 @@
 
 ## 1. Markdown介绍
 
-## 2. 开发环境搭建
+参见：[《基于VsCode打造Markdown编辑器》](../020402markdown_editor_vscode)
+
+## 2. 开发环境搭建(Windows)
+
+见：[《Typescript开发环境搭建（Windows) 》](beginer02)
 
 ## 3. 代码编辑器VSCode
 
