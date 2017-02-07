@@ -20,7 +20,7 @@
 ## 第一段ts代码
 
 1. 创建文件`helloworld.ts`  
-1. 文件内容为：`console.log('Hello World!');` 
+1. 文件内容为：`console.log('Hello World!');`
 1. 编译ts代码：`tsc helloworld.ts`生成`helloworld.js`
 1. 执行：`node helloworld.js`
 1. 终端会输出`Hello World!`
