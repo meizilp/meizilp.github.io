@@ -1,5 +1,7 @@
 # About this blog
 
+本文的最新版本：<https://github.com/meizilp/meizilp.github.io/tree/master/2017/020400about>
+
 Meizilp的技术博客。
 
 如果有内容需要修改，可创建ssues或者clone后pull request。  

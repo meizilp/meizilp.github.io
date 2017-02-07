@@ -1,5 +1,7 @@
 # 使用Syncthing搭建私有云
 
+本文的最新版本：<https://github.com/meizilp/meizilp.github.io/tree/master/2017/020503syncthing>
+
 通过syncthing搭建私用云同步，使用起来更方便。  
 
 ## 下载

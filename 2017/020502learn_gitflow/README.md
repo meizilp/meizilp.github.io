@@ -1,5 +1,7 @@
 # Git flow(AVH version)版本管理模型研究
 
+本文最新版本：<https://github.com/meizilp/meizilp.github.io/tree/master/2017/020502learn_gitflow>
+
 项目越来越大，分支越开越多，新特性在开发，线上bug要修复，代码版本脑子都记不过来了，
 针对这些问题，基于Git版本管理出现了一些版本管理模型，Git flow就是其中的一种。
 

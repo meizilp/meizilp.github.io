@@ -1,5 +1,7 @@
 # 基于VsCode打造Markdown编辑器
 
+本文最新版本：<https://github.com/meizilp/meizilp.github.io/tree/master/2017/020402markdown_editor_vscode>
+
 ## 安装VsCode
 
 下载地址：<https://code.visualstudio.com/>

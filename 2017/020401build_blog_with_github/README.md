@@ -1,5 +1,7 @@
 # 基于Github的博客方案
 
+本文的最新版本：<https://github.com/meizilp/meizilp.github.io/tree/master/2017/020401build_blog_with_github>
+
 ## 特点
 
 * 托管在Github上，省心
