@@ -5,8 +5,6 @@
 1. Git for windows <<https://git-scm.com/download/win>>
 1. TortoiseGit <https://tortoisegit.org/>
 
-> **以下内容依据TortoiseGit整理，部分语义和原始Git不一样。**
-
 ## 文档
 
 1. Git命令行手册 <https://git-scm.com/docs>
@@ -14,35 +12,66 @@
 
 ## 基础概念
 
-1. 仓库(repository)：就是包含.git目录的项目目录。可以在本地也可以在远端。每个项目一个库。
-1. 提交(commit)：把修改的代码保存到本地仓库。每次commit都会分配一个id来代表这次commit。
-    每当文件修改了就可以通过`git add`把文件加入到暂存区，然后一起commit。
-1. origin：仓库clone时或手工设置的远端仓库，多人协作时通过origin合并代码。
-1. push：把本地仓库的修改推到指定的仓库。
-1. pull：从远端指定的仓库获取最新代码到本地，并与本地代码合并。
-1. fetch： 从远端指定仓库获取最新代码但不合并，稍后手工处理。
-1. 分支：代码隔离方案，对文件的修改只影响当前分支。其余分支不受影响。
-1. merge：在A分支上merge分支B，那么会把B分之上和A分支上不一样的地方合并到一起，最终结果保存在A分支上。
-1. rebase：在A分支上基于B分支进行rebase，相当于把B分支上所有A分支和B分支分叉之后的commit先提交到A分支，
-    然后再把A分支上自从分叉之后的commit提交一遍，最终结果也是两个分支合并后保存在A分支上。
-    其和merge不一样的地方是所有commit经过这么处理后必然是线性的了，分支图上不会出现分叉。
-1. 冲突(conflicts)：分支合并时同一个文件如果在两个分支上都修改了，那么就会产生冲突，需要手工把两部分的修改合并到一起。
-1. checkout: 切换分支。如果加上参数，那么可以在切换的时候同时创建分支。
-1. diff:对比两个指定版本的差异。
-1. log：查看提交历史。
-1. tag:给某次commit起一个有语义的名称，方便查找。
+### 代码流动的过程
 
-## TortoiseGit基本操作
+![](git_data_flow.png)
+
+1. 工作区（Working area）：项目的工作目录。
+1. 本地仓库(Local repository)：项目的根目录下的.git目录，里面存储了版本信息以及文件历史版本。
+1. 暂存区(Stage 或 index)：.git目录下的index文件(文件的实际内容在另外的objects目录存储)。
+1. 远端仓库（origin 或者 remote repository）：不在本地的.git目录。
+
+* 在工作区修改内容，随时可以将修改通过`git add`保存到暂存区
+* 新增文件以及修改文件都是通过add加入暂存区
+* 同一个文件可以多次add到暂存区
+* 当暂存区的工作可以作为成果提交时，通过`git commit`提交到本地仓库(commit时需要写说明；一次commit可以包含多个文件)
+* 修改也可以直接通过`git commit -a`提交到本地仓库（这儿-a是add的意思，不是all）
+* 本地仓库的修改通过`git push`发布到远端
+* 远端仓库的代码可以通过`git fetch`获取到本地仓库，再通过`git merge`或`git rebase`和本地代码合并
+* 远程仓库代码也可以通过`git pull`获取后直接完成合并
+
+### 分支
+
+* 代码隔离方案，对文件的修改只影响当前分支。其余分支不受影响。
+* 远端分支和本地分支即便是同名也不是一个分支，代码仍然要合并。
+
+## 常用操作
+
+TortoiseGit很多操作在弹出菜单或者弹出的对话框中，使用时多用右键和双击来打开。
+
+### 仓库操作
 
 1. 创建仓库：  
-    创建一个目录，在文件夹右键弹出菜单中选择：`Git create repository here`。
+    * 直接本地创建一个：
+        * 命令行：`git init`
+        * TortoiseGit：在文件夹右键弹出菜单中选择`Git create repository here`
+    * 从远程clone一个：
+        * 命令行：`git clone <repo_url>`
+        * TortoiseGit：在文件夹右键弹出菜单中选择：`Git clone`。
+    * 只clone某个分支：
+        * 命令行：`git clone <repo_url> -b <branch_name> --single-branch`
+        * TortoiseGit：在文件夹右键弹出菜单中选择：`Git clone`时勾选branch后输入要获取的分支名称(和命令行的有点区别，这儿是获取所有分支后切换到指定分支)。
+
+1. 远端仓库：
+    * 查看所有已经关联的远端仓库：`git remote -v`。可以看到远端仓库的url。
+    * 查看某个远端仓库的详细信息：`git remote show <主机名>`。可以看到远端仓库的分支，以及与本地分支的关系。
+    * 添加远端仓库：`git remote add <主机名> <网址>`
+    * 删除远端仓库：`git remote rm <主机名>`
+
+### 文件操作
+
+http://josh-persistence.iteye.com/blog/2215214
+https://www.douban.com/note/579155522/
+https://www.douban.com/note/579155522/
+
 1. 添加文件：  
-    在要添加的文件上右键弹出菜单中选择，`TortoiseGit->Add`。
+    * `git add filename`或在要添加的文件上右键弹出菜单中选择，`TortoiseGit->Add`。
 1. 本地commit：  
-    在文件或者文件夹空白处右键，`Git commit`，在弹出对话框输入注释后完成提交到本地repository。
-    * 可以双击要提交的文件，看下点击的文件修改了哪些内容。
-    * 如果本次提交和上次提交可以合并，那么提交时可以勾选`Amend Last Commit`，把上次提交合并到本次提交，
-        注释内容改成包含这两次提交的，这样可以避免琐碎的提交在log上很乱。
+    * 命令行：`git commit`
+    * TorgoiseGit：在文件或者文件夹空白处右键，`Git commit`，在弹出对话框输入注释后完成提交到本地repository。
+        * 可以双击要提交的文件，看下点击的文件修改了哪些内容。
+        * 如果本次提交和上次提交可以合并，那么提交时可以勾选`Amend Last Commit`，把上次提交合并到本次提交，
+            注释内容改成包含这两次提交的，这样可以避免琐碎的提交在log上很乱。
 1. 合并commit：
     在空白处右键`TortoiseGit->Show log`触发弹出窗口，选择需要合并的多个commit，
     右键菜单，`combine to one commit`(如果所选择的commit跨分支不能合并，这个菜单不会显示）。
@@ -53,9 +82,10 @@
     * Working tree和前面任意一次commit比较：show log，选择commit，右键`Compare with working tree`，
     在弹出的对话框中双击要查看的文件就可以看到这两个版本的差异。
 1. 版本回退：
+    放弃当前修改：git checkout -- filename
     * 某个文件回退：
         * 在要回退的文件上右键，`Revert`就可以回到上一个版本
-        * 或`Show log`后选中某次commit，在下方的文件变更列表中选择要回退的文件，在文件名上右键，执行`Revert to this revision`， 
+        * 或`Show log`后选中某次commit，在下方的文件变更列表中选择要回退的文件，在文件名上右键，执行`Revert to this revision`，
         则文件回退到指定版本。此时文件变为修改了的状态，要再次commit到仓库。
     * 整个分支回退到某个commit：`Show log`后选中某个commit，在上方commit列表中选择要回退到的目标commit，在commit的名称上右键，
     执行`Reset master to this`，根据需要选择reset type，则master分支会回退到此commit。reset type有三种：
@@ -71,21 +101,65 @@
 1. 打标签：
     * 创建：选择要创建tag的commit，create tag at this revision，输入标签名称和message后就可以了。一个commit可以创建多个标签。
     * 删除: show log，选择要删除tag的commit，delete tag。
-1. 创建分支：右键菜单Create branch。
-1. 切换分支：右键菜单Switch branch。
-1. 合并分支：
-    * merge:
-    * rebase:（rebase之前建议做这个操作，避免冲突的时候，一个commit一个commit的改要崩溃）
-1. 解决冲突：
+
+1. log：查看提交历史。
 1. 临时保存：
-1. 关联远端仓库：
-1. clone项目：
-1. 合并远端仓库修改：
-1. 获取远端仓库修改但不合并：
 
-### 右键和双击
+### 分支操作
 
-TortoiseGit很多操作在弹出菜单或者弹出的对话框中，使用时多用右键和双击来打开。
+1. 查看分支
+    * 查看本地分支：`git branch`
+    * 查看所有分支：`git branch -a`
+    * 查看和远程分支间的track关系：增加`-vv`参数
+
+1. 创建分支
+    * 基于当前分支当前commit创建：`git branch <新分支名称>`
+    * 基于远程分支创建：`git branch <新分支名称> <远程分支名称(类似于origin/b1)>`
+    * 创建后并切换到新分支：`git checkout -b <newBranch> <baseBranch>`
+
+1. 切换分支
+    * checkout: 切换分支。如果加上参数`-b`，那么可以在切换前创建分支。
+
+1. 合并分支
+    * merge：在A分支上merge分支B，那么会把B分之上和A分支上不一样的地方合并到一起，最终结果保存在A分支上。
+    * rebase：在A分支上基于B分支进行rebase，相当于把B分支上所有A分支和B分支分叉之后的commit先提交到A分支，
+    然后再把A分支上自从分叉之后的commit提交一遍，最终结果也是两个分支合并后保存在A分支上。
+    其和merge不一样的地方是所有commit经过这么处理后必然是线性的了，分支图上不会出现分叉。
+    （rebase之前建议做合并commit操作，避免冲突的时候，一个commit一个commit的改要崩溃）
+    * 冲突(conflicts)：分支合并时同一个文件如果在两个分支上都修改了，那么就会产生冲突，需要手工把两部分的修改合并到一起。
+
+1. 与远程分支建立追踪关系
+    追踪关系建立后，很多操作可以省略远程分支参数，如果只有一个追踪关系，连主机名参数都可以省略。
+    * 通过clone建立：本地分支默认和远程主机的同名分支建立关系。
+    * 通过创建分支时建立：如果分支创建是基于远程分支创建，那么自动建立tracking关系。
+    * 手动建立：`git branch --set-upstream <本地分支名> <远程分支名>`。
+
+1. 获取更新：
+    * 获取远程主机的所有分支更新：`git fetch`
+    * 获取指定主机的指定分支更新：`git fetch <主机名> <分支名>`
+
+1. 获取更新并合并：
+    * 获取指定主机指定分支的更新并与本地指定分支合并：`git pull <远程主机名> <远程分支名>:<本地分支名>`，如果冒号后省略则与当前分支合并。(从来源<远程分支>到目的<本地分支>)
+    * pull省略远程分支参数：`git pull <远程主机名>`，获取与本地分支有tracking关系的远程分支。如果本地分支只有一个追踪分支，则远程主机名都可以省略。
+    * 采用rebase方式合并获取到的更新：`git pull --rebase <远程主机> <远程分支>:<本地分支>`
+
+1. 推送更新：
+    * 推送本地分支到指定主机指定分支：`git push <远程主机> <本地分支>:<远程分支>`。（从来源<本地分支>到目的<远程分支>）
+    * 省略远程分支名推送：`git push <远程主机> <本地分支>`。
+        * 本地分支存在有追踪关系的远程分支：那么会推送到这个有追踪关系的远程分支上。
+        * 本地分支不存在有追踪关系的远程分支：
+            * 有同名的远程分支：推送到同名的这个远程分支。
+            * 没有同名的远程分支：会创建同名的远程分支，再推送到这个新建的远程分支上，但是和本地分支不会自动建立追踪关系。
+    * 省略本地分支：
+        * 不省略远程分支：类似于`git push origin :master`，这等于推送一个空本地分支到远程主机，相当于删除远程分支。（不建议这么使用）
+        * 同时省略远程分支：类似于`git push origin`，等同于推送当前分支。
+    * 省略远程主机、本地分支、远程分支：`git push`
+        * 如果当前分支只有一个追踪分支，那么就推送到这个追踪分支
+        * 如果当前分支有多个追踪分支，可以用-u选项指定一个默认主机，以后就不用再加主机参数`git push -u origin master`
+        * Git2.0开始`git push`默认只推送当前分支，如果要推送所有有对应远程远程分支的本地分支可以把推送方式由simple改为matching方式。`git config --global push.default matching`。(建议还是用simple)
+        * 如果要不管是否有对应的远程分支，本地分支都推送到远程主机，那么加上`--all`参数。
+        * 默认不推送tag，如果要推送tag，那么加上`--tags`参数
+    * 强行推送参数`--force`：会用本地版本覆盖远程主机版本。但是强烈不建议这么使用。
 
 ## Git flow
 
