@@ -78,7 +78,10 @@ TortoiseGit很多操作在弹出菜单或者弹出的对话框中，使用时多
     在弹出的对话框中双击要查看的文件就可以看到这两个版本的差异。
 1. 版本回退：
     * 某个文件回退：
-        * 放弃当前修改：`git checkout -- filename` 会用最后一次`git add`或`git commit`的内容覆盖工作区内容，不会有任何提示。
+        * 放弃当前修改：
+            * 未add：`git checkout -- filename` 会用最后一次`git add`或`git commit`的内容覆盖工作区内容，不会有任何提示。
+            * 已add但未commit：先用`git reset`把暂存区清理了，再按照未add处理。如果只是处理某个文件，在reset之后指明文件。
+            * 已commit：走revert版本回退。
         * 在要回退的文件上右键，`Revert`就可以回到上一次commit的版本，并且暂存区的修改被清掉。
         * 或`Show log`后选中某次commit，在下方的文件变更列表中选择要回退的文件，在文件名上右键，执行`Revert to this revision`，
         则文件回退到指定版本。此时文件变为修改了的状态，要再次commit到仓库。
