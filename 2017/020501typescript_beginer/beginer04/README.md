@@ -2,7 +2,7 @@
 
 ## 安装
 
-1. Git for windows <<https://git-scm.com/download/win>>
+1. Git for windows <https://git-scm.com/download/win>
 1. TortoiseGit <https://tortoisegit.org/>
 
 ## 文档
@@ -51,7 +51,6 @@ TortoiseGit很多操作在弹出菜单或者弹出的对话框中，使用时多
     * 只clone某个分支：
         * 命令行：`git clone <repo_url> -b <branch_name> --single-branch`
         * TortoiseGit：在文件夹右键弹出菜单中选择：`Git clone`时勾选branch后输入要获取的分支名称(和命令行的有点区别，这儿是获取所有分支后切换到指定分支)。
-
 1. 远端仓库：
     * 查看所有已经关联的远端仓库：`git remote -v`。可以看到远端仓库的url。
     * 查看某个远端仓库的详细信息：`git remote show <主机名>`。可以看到远端仓库的分支，以及与本地分支的关系。
@@ -60,12 +59,8 @@ TortoiseGit很多操作在弹出菜单或者弹出的对话框中，使用时多
 
 ### 文件操作
 
-http://josh-persistence.iteye.com/blog/2215214
-https://www.douban.com/note/579155522/
-https://www.douban.com/note/579155522/
-
 1. 添加文件：  
-    * `git add filename`或在要添加的文件上右键弹出菜单中选择，`TortoiseGit->Add`。
+    * `git add filename`加入暂存区或在要添加的文件上右键弹出菜单中选择，`TortoiseGit->Add`。
 1. 本地commit：  
     * 命令行：`git commit`
     * TorgoiseGit：在文件或者文件夹空白处右键，`Git commit`，在弹出对话框输入注释后完成提交到本地repository。
@@ -82,9 +77,9 @@ https://www.douban.com/note/579155522/
     * Working tree和前面任意一次commit比较：show log，选择commit，右键`Compare with working tree`，
     在弹出的对话框中双击要查看的文件就可以看到这两个版本的差异。
 1. 版本回退：
-    放弃当前修改：git checkout -- filename
     * 某个文件回退：
-        * 在要回退的文件上右键，`Revert`就可以回到上一个版本
+        * 放弃当前修改：`git checkout -- filename` 会用最后一次`git add`或`git commit`的内容覆盖工作区内容，不会有任何提示。
+        * 在要回退的文件上右键，`Revert`就可以回到上一次commit的版本，并且暂存区的修改被清掉。
         * 或`Show log`后选中某次commit，在下方的文件变更列表中选择要回退的文件，在文件名上右键，执行`Revert to this revision`，
         则文件回退到指定版本。此时文件变为修改了的状态，要再次commit到仓库。
     * 整个分支回退到某个commit：`Show log`后选中某个commit，在上方commit列表中选择要回退到的目标commit，在commit的名称上右键，
@@ -92,7 +87,6 @@ https://www.douban.com/note/579155522/
         * soft： head指向指定的commit；暂存区的修改保持不变；工作区的修改保持不变
         * mixed(默认值)：head指向指定的commit；暂存区的文件被指定commit上的文件覆盖；工作区的文件保持不变，如果有修改，需要再次add到暂存区后commit。[暂存区的概念前面没讲，待补充]
         * hard： head指向指定的commit；暂存区的文件被指定commit上的文件覆盖；工作区的文件被指定commit上的文件覆盖
-        TODO:配合git status命令验证三种类型的区别。
     * 回到未来：当整个分支回退后到某个commit后，通过`show log`就无法看到这个commit之后的commit了，
     那么如果想跳转到这些看不到commit，那么在项目目录的空白处右键，`show reflog`可以看到按照日期倒序的所有操作，包括commit的id，执行的action，
     在要跳转的commit上右键，`reset master to this`就可以跳转到指定的commit了。
@@ -101,9 +95,8 @@ https://www.douban.com/note/579155522/
 1. 打标签：
     * 创建：选择要创建tag的commit，create tag at this revision，输入标签名称和message后就可以了。一个commit可以创建多个标签。
     * 删除: show log，选择要删除tag的commit，delete tag。
-
-1. log：查看提交历史。
-1. 临时保存：
+    * 推送标签：默认push时不会推送标签，需要勾选上推送tag才可以。
+1. 临时保存：`git stash`。执行后所有的修改都被保存到临时保存堆栈，工作区变为clear，可以切换到别的分支，当完成突发工作后切换回来，从临时保存堆栈中取出保存的工作进度。
 
 ### 分支操作
 
@@ -125,8 +118,9 @@ https://www.douban.com/note/579155522/
     * rebase：在A分支上基于B分支进行rebase，相当于把B分支上所有A分支和B分支分叉之后的commit先提交到A分支，
     然后再把A分支上自从分叉之后的commit提交一遍，最终结果也是两个分支合并后保存在A分支上。
     其和merge不一样的地方是所有commit经过这么处理后必然是线性的了，分支图上不会出现分叉。
-    （rebase之前建议做合并commit操作，避免冲突的时候，一个commit一个commit的改要崩溃）
+    （rebase之前建议A分支上做合并commit操作，避免冲突的时候，一个commit一个commit的改要崩溃）
     * 冲突(conflicts)：分支合并时同一个文件如果在两个分支上都修改了，那么就会产生冲突，需要手工把两部分的修改合并到一起。
+    使用TortoiseGit可视化的编辑很方便。
 
 1. 与远程分支建立追踪关系
     追踪关系建立后，很多操作可以省略远程分支参数，如果只有一个追踪关系，连主机名参数都可以省略。

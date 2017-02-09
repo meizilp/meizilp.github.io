@@ -2,6 +2,10 @@
 
 <https://github.com/meizilp/meizilp.github.io>
 
+## 2017年2月9日
+
+1. [Typescript入门-代码版本管理-Git快速入门](2017/020501typescript_beginer/beginer04)
+
 ## 2017年2月7日
 
 1. [Typescript入门](2017/020501typescript_beginer)
