@@ -7,3 +7,6 @@
 ## 注解版
 
 repo：<https://github.com/meizilp/TypeScript-Handbook>
+
+1. [数据类型](01basic_types)
+
