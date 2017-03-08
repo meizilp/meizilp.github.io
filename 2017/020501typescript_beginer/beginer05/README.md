@@ -8,5 +8,8 @@
 
 repo：<https://github.com/meizilp/TypeScript-Handbook>
 
-1. [数据类型](01basic_types)
+1. [基础数据类型](01basic_types)
 
+## 其它的电子书
+
+[深入Typescript](https://basarat.gitbooks.io/typescript/content/)
