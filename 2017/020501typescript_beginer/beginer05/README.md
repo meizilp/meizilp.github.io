@@ -9,6 +9,7 @@
 repo：<https://github.com/meizilp/TypeScript-Handbook>
 
 1. [基础数据类型](01basic_types)
+1. [变量声明](02variable_declarations)
 
 ## 其它的电子书
 

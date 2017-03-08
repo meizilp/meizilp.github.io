@@ -5,6 +5,7 @@
 ## 2017年3月8日
 
 1. [Typescript入门-Typescript手册-基础类型](2017/020501typescript_beginer/beginer05/01basic_types)
+1. [Typescript入门-Typescript手册-变量声明](2017/020501typescript_beginer/beginer05/02variable_declarations)
 
 ## 2017年2月9日
 
