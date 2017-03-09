@@ -6,3 +6,7 @@
 
 ## let 声明
 
+语法：`let hello = "hello"`
+
+### 块作用域
+
