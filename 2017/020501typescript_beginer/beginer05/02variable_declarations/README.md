@@ -48,14 +48,133 @@ PS：这儿就是和C语言根本上的不同。在C语言中，局部变量分�
 
 ## 解构
 
+从数组或者对象中快捷的取值赋给变量。
+
 ### 解构数组
+
+* 数组中的值赋给变量
+    ```ts
+    let [first, second] = [1, 2]    //[]在左侧，解构后可以直接使用first、second这两个新创的变量。
+    ```
+* 作用于函数参数
+    ```ts
+    function f([first, second]:[number, number]) {  //参数类型是个元组，其元素会被赋值给新创建的变量
+        console.log(first)
+        console.log(second)
+    }
+    ```
+* 剩余元素赋值给新的数组
+    ```ts
+    let [first, ...rest] = [1,2,3,4]    //...语法
+    console.log(first)  //outputs 1
+    console.log(reset)  //outputs [2,3,4]
+    ```
+* 只取部分元素
+    ```ts
+    let [first] = [1,2,3,4]
+    console.log(first)  //1
+    let [,second,,fourth] = [1,2,3,4]
+    console.log(second) //2
+    ```
 
 ### 解构对象
 
-#### 属性重命名
+* 把对象属性值赋给同名变量
+    ```ts
+    let o = {           //{}在右侧是定义对象
+        a:"foo",
+        b:12,
+        c:"bar
+    }
+    let {a, b} = o  //{}在左侧是对象解构；o.c的值没用到
+    console.log(a)  //outputs o.a
+    let {a, d} = o //Error，因为o中没有d这个名字的属性
+    ```
+* 剩余属性赋值给新的对象
+    ```ts
+    let o = { a: "a", b: 6, c: "c", d: "d" }
+    let { a, c, ...remain } = o
+    console.log(c)          //ouputs o.c
+    console.log(remain)     //outputs { b: 6, d: 'd' }，剩下的没有被取走的值
+    ```
+* 把对象属性值赋给重命名的变量
+    ```ts
+    let {a:newName1, b:newName2} = o    //newName1=o.a
+    ```
+    在解构语法中属性名冒号后面是其新名字而不是类型。如果要指明类型，那么要给整个解构体指明类型，写法如下：
+    ```ts
+    let {a:newName1, b:newName2}:{a:string, b:number} = o
+    ```
+* 指定属性解构默认值
+    在ts中，对象的属性可以是可选的，如果可选属性的实际值是undefined，解构时变量就会是默认值。
+    ```ts
+    let d: { da: number, db: string, dc?: string }  //dc是可选属性
+    d = { da: 100, db: "bb" }                       //dc没有赋值
+    let { da, db = "db", dc = "dc" } = d            //db、dc都指定了解构时的默认值，虽然db不是可选属性也不会出错
+    console.log(db)     //outputs bb。因为db属性有值，所以默认值不起作用
+    console.log(dc)     //ouputs dc。因为dc属性没有值，所以得到解构时指定的默认值
+    ```
+* 在函数声明中使用解构
+  * 直接解构参数
+    ```ts
+    function f1({ a, b }) {     //参数直接被解构为变量a和变量b
+        console.log(a)
+        console.log(b)
+    }
+    f1({ a: "a1", b: "b1" })    //outputs: a1 b1
+    ```
+  * 带有可选属性的解构体
+    ```ts
+    function f2({ a, b }:{a:string, b?:string}) {     //参数直接被解构为变量a和变量b。对象的b属性是可选的
+        console.log(a)
+    }
+    f2({a: "a2"})    //outputs: a2。属性b是可选的，所以对象可以不用传入
+    ```
+  * 带有默认值的函数参数解构
+    ```ts
+    function f3({ a, b = "nothing" }: { a: string, b?: string } = { a: "default_a" }) {
+        console.log(a)
+        console.log(b)
+    }
+    f3()    //输出 default_a,nothing。没有传递任何参数，那么使用参数的默认值。参数默认值不包含b属性，使用b属性的默认值。
+    f3({ a: "a3" }) //输出a3,nothing。传递了参数，但是不包含b属性，使用b属性的默认值
+    f3({ a: "a3", b: "b3" })    //输出a3,b3。传递了参数，包含所有的属性值
+    f3({})      //Error。对象中没有不可选的a属性
+    ```
 
-#### 属性默认值
+## 展开
 
-### 在函数声明中使用解构
+将一个对象的所有属性嵌入到另一个对象或者将一个数组的所有元素嵌入到另一个数组中。
 
-### 展开
+### 展开数组
+
+被展开数组中的元素按照先后顺序出现在新数组中。
+
+```ts
+let first = [1,2]
+let second = [3,4]
+let both = [0, ...first, ...second, 5]  //[0,1,2,3,4,5]
+```
+
+### 展开对象
+
+被展开对象的属性值出现在新对象中，展开时按照从左到右的顺序，后出现的属性值会覆盖先前的同名属性值。
+
+```ts
+let defaults = { food: "spicy", price: "$$", ambiance: "noisy" };
+let search = { ...defaults, food: "rich" };     //defaults对象被展开；后出现的food值覆盖defaults中的值
+```
+
+对象展开时，只是把属性值展开，方法不会带入到新对象中去。
+
+```ts
+class C {
+  p = 12;
+  m() {
+  }
+}
+let c = new C();
+let clone = { ...c };
+clone.p; // ok
+clone.m(); // error!  m是个方法，不会带入新对象。
+```
