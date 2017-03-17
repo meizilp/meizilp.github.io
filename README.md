@@ -2,6 +2,10 @@
 
 <https://github.com/meizilp/meizilp.github.io>
 
+## 2017年3月17日
+
+1. [Typescript入门-Typescript手册-接口](2017/020501typescript_beginer/beginer05/03interfaces)
+
 ## 2017年3月8日
 
 1. [Typescript入门-Typescript手册-基础类型](2017/020501typescript_beginer/beginer05/01basic_types)
