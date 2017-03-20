@@ -11,6 +11,7 @@ repo：<https://github.com/meizilp/TypeScript-Handbook>
 1. [基础数据类型](01basic_types)
 1. [变量声明](02variable_declarations)
 1. [接口](03interfaces)
+1. [类](04classes)
 
 ## 其它的电子书
 
