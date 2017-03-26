@@ -1,9 +1,11 @@
+let k = 100
 for (let i = 0; i < 3; ++i) {
     var j = i * 10
     setTimeout(function () {
-        console.log(`i:${i} j:${j}`)
+        console.log(`i:${i} j:${j} k:${k}`)
     }, 100);
 }
+k = 200
 
 let [first, ...rest] = [1, 2, 3, 4]
 console.log(first)
