@@ -2,6 +2,10 @@
 
 <https://github.com/meizilp/meizilp.github.io>
 
+## 2017年3月21日
+
+1. [Typescript入门-Typescript手册-函数](2017/020501typescript_beginer/beginer05/05functions)
+
 ## 2017年3月20日
 
 1. [Typescript入门-Typescript手册-类](2017/020501typescript_beginer/beginer05/04classes)

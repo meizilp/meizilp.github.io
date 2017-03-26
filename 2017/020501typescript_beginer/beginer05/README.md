@@ -12,6 +12,7 @@ repo：<https://github.com/meizilp/TypeScript-Handbook>
 1. [变量声明](02variable_declarations)
 1. [接口](03interfaces)
 1. [类](04classes)
+1. [函数](05functions)
 
 ## 其它的电子书
 
