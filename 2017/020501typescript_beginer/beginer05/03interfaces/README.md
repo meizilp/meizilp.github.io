@@ -17,7 +17,7 @@ let myObj = { size: 10, label: "Size 10 Object" }   //对象有label属性就满
 printLabel(myObj)
 ```
 
-* 在Typescript中接口是用来约束值的形状，而不是用来实现的。
+* 在Typescript中接口不仅仅是用来实现的，也可用来约束值的形状。
 * myObj有接口要求的属性，那么就是满足的，多余的属性以及属性的顺序没有影响。
 * myObj的类型不一定是接口定义的名称，如果改成`let myObj:LabeledValue`，那么反倒会因为多了`size`属性而报错。
 
