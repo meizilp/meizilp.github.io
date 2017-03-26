@@ -30,7 +30,7 @@ class Animal {      //基类
     }
 }
 
-class Horse extends Animal {    //extends关键字从基类继承
+class Horse extends Animal {    //extends关键字从基类继承。class只能从一个类继承，不能从多个类继承；interface可以扩展多个类。
     constructor(name: string) { //构造函数
         super(name)             //必须用super关键字调用父类构造函数
     }
@@ -49,6 +49,27 @@ sam.move()  //outputs Galloping... 虽然是Animal类型变量，但真实对象
 tom.move(60)    //outputs Galloping... 调用Horse类的方法
 //sam.neigh()   //虽然sam是Horse类对象，但是变量类型是Animal类型，是无法通过这个变量调用neigh这个子类定义的方法
 tom.neigh() //可以调用Horse类的方法
+```
+
+## 实现接口
+
+```ts
+interface i1 {
+    hello1(msg: string): string
+}
+
+interface i2 {
+    hello2(msg: string): string
+}
+
+class ci implements i1, i2 {    //关键字implements；可以同时实现多个接口。
+    hello1(msg) {
+        return msg
+    }
+    hello2(msg) {
+        return msg
+    }
+}
 ```
 
 ## Public、Private、Protected 修饰符

@@ -16,7 +16,7 @@ class Bird extends Animal {
     move() {
         console.log(`${this.name} run with two wings.`)
     }
-    fly() { 
+    fly() {
         console.log(`${this.name} fly in the sky.`)
     }
 }
@@ -30,9 +30,6 @@ let bird = buildAnimal(Bird, "Bob")
 monkey.move()
 bird.move()
 //bird.fly()
-
-
-
 
 class Person {
     constructor(private _name: string) { }
@@ -55,5 +52,22 @@ abstract class MyAnimal {
     makeSound(): void { }
     move(): void {
         console.log("roaming the earth...");
+    }
+}
+
+interface i1 {
+    hello1(msg: string): string
+}
+
+interface i2 {
+    hello2(msg: string): string
+}
+
+class ci implements i1, i2 {
+    hello1(msg) {
+        return msg
+    }
+    hello2(msg) {
+        return msg
     }
 }
