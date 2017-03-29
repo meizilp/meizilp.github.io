@@ -28,7 +28,7 @@
   let k = 100   //在循环体外let声明
   for (let i = 0; i < 3; ++i) {
     var j = i * 10                //j使用的var声明，就只能输出最后的值。如果改成let声明，那么每次就是i的10倍了。
-    setTimeout(function () {      //在异步函数中调用，此时已经离开for的块作用域。
+    setTimeout(function () {      //函数可以使用在函数外定义的变量k(称之为变量捕获)；在异步函数中调用，此时已经离开for的块作用域。
       console.log(`i:${i} j:${j} k:${k}`)
     }, 100);
   }
