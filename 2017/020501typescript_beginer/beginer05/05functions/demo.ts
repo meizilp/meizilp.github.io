@@ -4,5 +4,6 @@ function buildName(firstName: string, ...restOfName: string[]) {
     console.log(restOfName.length)
     return firstName + " " + restOfName.join("")
 }
-let employeeName = buildName("Joseph", "Samuel", "Lucas", "Mike")
+//let employeeName = buildName("Joseph", "Samuel", "Lucas", "Mike")
+let employeeName = buildName("Joseph")
 
