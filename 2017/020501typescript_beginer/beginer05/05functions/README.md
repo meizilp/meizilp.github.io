@@ -98,84 +98,28 @@ test();
 alert(x); //在浏览器中x的值是0,因为test调用时this指向global覆盖了原来的值；而如果用node v6.3.1运行则x的值仍然是1，应该是this指向了function自己的this。
 ```
 
-下面的内容来自于typescript手册：(用浏览器以及node v6.3.1都是同样效果)
-js中this的值在**函数被调用时**才确定；而通过箭头函数在**函数创建时**就绑定this的值。
-
-会出错的代码
+js中this的值在**函数被调用时**才确定；而通过箭头函数在**函数创建时**就绑定this的值(创建并不是只眼睛看到代码，可能代码在前面，但是没执行就不会创建)。
 
 ```ts
-let deck = {
-    suits: ["hearts", "spades", "clubs", "diamonds"],
-    cards: Array(52),
-    createCardPicker: function() {
-        return function() {
-            let pickedCard = Math.floor(Math.random() * 52);
-            let pickedSuit = Math.floor(pickedCard / 13);
-            //this在调用时指向global，没有suits成员，会报错
-            return {suit: this.suits[pickedSuit], card: pickedCard % 13};
-        }
+class TestThis {
+    x: number
+    constructor() {
+        this.x = 1      //构造函数给成员赋值时必要的，否则x不会分配对象来保存。这点和JAVA不一样
+    }
+    go() {
+        setInterval(function () {
+            //普通函数，调用时this指向一个timeout对象，里面没有x成员。在编译阶段，ts推测this为any类型。
+            console.log(`common function:${this.x++}`)  //NaN。
+        }, 1000)
+        setInterval(() => {
+            //箭头函数，创建时this就指向了当时调用go函数的对象，所以可以找到x成员。在编译阶段，ts就能推测this为TestThis类型
+            console.log(`arrow function:${this.x++}`)   //1,2,3... 
+        }, 1000)
     }
 }
 
-let cardPicker = deck.createCardPicker();   //拿到了返回的普通函数
-let pickedCard = cardPicker();  //调用时这个函数内部的this指向global
-
-console.log("card: " + pickedCard.card + " of " + pickedCard.suit);
-```
-
-不会出错的代码：（关于箭头函数与普通函数中this的对比参见《JSX章节》
-
-```ts
-let deck = {
-    suits: ["hearts", "spades", "clubs", "diamonds"],
-    cards: Array(52),
-    createCardPicker: function () {
-        return () => {
-            let pickedCard = Math.floor(Math.random() * 52);
-            let pickedSuit = Math.floor(pickedCard / 13);
-            //创建箭头函数时this指向deck，调用时仍然指向deck对象，有suits成员，所以不会出错。this此时为any类型。
-            return { suit: this.suits[pickedSuit], card: pickedCard % 13 };
-        }
-    }
-}
-
-let cardPicker = deck.createCardPicker();   //拿到新创建的箭头函数
-let pickedCard = cardPicker();  //创建箭头函数时this指向deck，那么调用箭头函数时仍然指向deck
-
-console.log("card: " + pickedCard.card + " of " + pickedCard.suit);
-```
-
-this作为参数：(typescript中用来确定类型)
-
-```ts
-interface Card {
-    suit: string;
-    card: number;
-}
-
-interface Deck {        //增加interface来描述类型
-    suits: string[];
-    cards: number[];
-    createCardPicker(this: Deck): () => Card;
-}
-
-let deck: Deck = {
-    suits: ["hearts", "spades", "clubs", "diamonds"],
-    cards: Array(52),
-    createCardPicker: function (this: Deck) {   //参数列表第一个参数增加this以及其类型
-        return () => {  //创建箭头函数时就知道this是什么类型了。箭头函数自身不带this，用的是创建时的上下文。
-            let pickedCard = Math.floor(Math.random() * 52);
-            let pickedSuit = Math.floor(pickedCard / 13);
-
-            return { suit: this.suits[pickedSuit], card: pickedCard % 13 };
-        }
-    }
-}
-
-let cardPicker = deck.createCardPicker();
-let pickedCard = cardPicker();
-
-console.log("card: " + pickedCard.card + " of " + pickedCard.suit);
+let tt = new TestThis()
+tt.go()     //以tt对象调用go函数
 ```
 
 ## 重载

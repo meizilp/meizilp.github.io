@@ -28,6 +28,26 @@ let f6 = param => ({ foo: param })
 //参数列表支持默认值、剩余参数、解构赋值
 let f7 = ([a, b] = [1, 2], ...rest) => a + b
 
+/**
+ * TestThis
+ */
+class TestThis {
+    x: number
+    constructor() {
+        this.x = 1
+    }
+    go() {
+        setInterval(function () {
+            console.log(`common function:${this.x++}`)  //NaN
+        }, 1000)
+        setInterval(() => {
+            console.log(`arrow function:${this.x++}`)   //1,2,3...
+        }, 1000)
+    }
+}
+
+let tt = new TestThis()
+tt.go()
 
 interface Card {
     suit: string;
@@ -60,8 +80,8 @@ console.log("card: " + pickedCard.card + " of " + pickedCard.suit);
 
 let suits = ["hearts", "spades", "clubs", "diamonds"];
 
-function pickCard(x: {suit: string; card: number; }[]): number
-function pickCard(x: number): {suit: string; card: number; }
+function pickCard(x: { suit: string; card: number; }[]): number
+function pickCard(x: number): { suit: string; card: number; }
 function pickCard(x): any {
     // Check to see if we're working with an object/array
     // if so, they gave us the deck and we'll pick the card
