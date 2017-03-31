@@ -71,12 +71,15 @@ x[5].substr(1)              //错误，元素5也是string|number联合类型，
 
 ## 枚举
 
-类型声明： enum
+类型声明： enum 枚举类型名称｛值名称列表} 可以指定值也可以不指定
 
 ```ts
-enum Color {Red, Green, Blue = 4}   //enum 枚举类型名称｛值名称列表} 可以指定值也可以不指定
+enum Color {Red, Green, Blue = 4, Yellow}   //Red默认值为0；Yellow为5=Blue+1
 let c: Color = Color.Green          //给枚举类型变量使用枚举值名称赋值
 let colorName: string = Color[4]    //colorName是Blue，通过值4找到了名称Blue
+
+//const修饰枚举，那么生成的代码中不会有Enum对象，可以避免生成多余的代码和间接引用，但也无法利用枚举值获取到对应的枚举名称了
+const enum Directions {Up, Down, Left, Right}
 ```
 
 ## “任意”类型
