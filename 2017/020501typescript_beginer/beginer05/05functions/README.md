@@ -23,15 +23,16 @@ function addToZ(x,y) {
 
 ## 函数类型
 
-1. 包含参数、返回值类型的完整函数写法
+1. 包含参数、返回值类型的完整**函数**写法
     ```ts
     function add(x:number, y:number) : number { //参数后有类型标注；参数列表后有返回值类型标注
         return x + y        //ts能根据返回值推断出返回值类型，返回值的类型也可以省略不写
     }
     ```
-1. 函数类型的完整写法
+1. **函数类型**的完整写法
+    包含参数列表和返回值两部分；通过=>来连接；参数类型不能省略，否则会被推断为any；如果没返回值，那么要明确指定为void
     ```ts
-    let myAdd:(x:number,y:number)=>number =     //包含参数列表和返回值两部分；通过=>来连接；参数类型不能省略，否则会被推断为any；如果没返回值，那么要明确指定为void
+    let myAdd:(x:number,y:number)=>number =
         function(x:number, y:number):number {return x + y}  //赋值时值的参数名称可以和类型中的不一样
     ```
 1. 通过函数类型简化函数定义的写法
