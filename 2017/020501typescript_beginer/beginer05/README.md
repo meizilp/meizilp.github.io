@@ -13,6 +13,7 @@ repo：<https://github.com/meizilp/TypeScript-Handbook>
 1. [接口](03interfaces)
 1. [类](04classes)
 1. [函数](05functions)
+1. [泛型](06generics)
 
 ## 其它的电子书
 
