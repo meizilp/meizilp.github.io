@@ -104,17 +104,15 @@ js中this的值在**函数被调用时**才确定；而通过箭头函数在**�
 ```ts
 class TestThis {
     x: number
-    constructor() {
-        this.x = 1      //构造函数给成员赋值时必要的，否则x不会分配对象来保存。这点和JAVA不一样
-    }
     go() {
+        this.x = 1      //要先给x赋值，否者后面x++时返回的仍然是NaN
         setInterval(function () {
             //普通函数，调用时this指向一个timeout对象，里面没有x成员。在编译阶段，ts推测this为any类型。
             console.log(`common function:${this.x++}`)  //NaN。
         }, 1000)
         setInterval(() => {
             //箭头函数，创建时this就指向了当时调用go函数的对象，所以可以找到x成员。在编译阶段，ts就能推测this为TestThis类型
-            console.log(`arrow function:${this.x++}`)   //1,2,3... 
+            console.log(`arrow function:${this.x++}`)   //1,2,3...
         }, 1000)
     }
 }

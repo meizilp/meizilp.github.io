@@ -33,10 +33,8 @@ let f7 = ([a, b] = [1, 2], ...rest) => a + b
  */
 class TestThis {
     x: number
-    constructor() {
-        this.x = 1
-    }
     go() {
+        this.x = 1
         setInterval(function () {
             console.log(`common function:${this.x++}`)  //NaN
         }, 1000)
