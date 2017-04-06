@@ -1,5 +1,7 @@
 # 高级类型
 
+高级类型中很多类型是为了编译器更好的工作。（感觉好多过于设计了，其实某些细节可以不必搞那么清楚）
+
 ## 联合类型
 
 联合类型表示一个值可以是几种类型之一。比如`string|number|boolean`。如果一个值是联合类型，
@@ -251,6 +253,101 @@ console.log(va.currentValue())
 
 ## 索引类型
 
+```ts
+interface Person {
+    name: string;
+    age: number;
+}
+let personProps: keyof Person;  //'name'|'age'。keyof T代表T类型所有的公共属性名称的联合类型。
+
+let person: Person = {
+    name: 'Jarid',
+    age: 35
+};
+
+function getProperty<T, K extends keyof T>(o: T, name: K): T[K] { //T[K]是一个动态变化的类型
+    return o[name]; //o是T类型的对象；name是T的某个属性名称；返回值就是对象o的name属性值
+}
+
+let name: string = getProperty(person, 'name'); //T[K]实例为string
+let age: number = getProperty(person, 'age');   //T[K]实例为number
+let unknown = getProperty(person, 'unknown'); // error, 因为person对象没有'unknown'这个名称的属性
+
+function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
+  return names.map(n => o[n]);
+}
+let strings: (string|number)[] = pluck(person, ['name', 'age']);    //会得到['Jarid',35]。因为属性值有多种类型，所以数组的值也是联合类型。
+let stringsInference = pluck(person, ['name']); //stringInference会被推断为string[]类型；如果只取age属性那么会被推断为number[]类型
+```
+
+### 索引类型和字符串索引签名
+
+```ts
+interface Map<T> {
+    [key: string]: T;
+}
+let keys: keyof Map<number>; // keys的类型就是string，不是一个联合类型了。
+let value: Map<number>['foo']; // value的类型就是number，不是所有值类型的联合类型了。
+```
+
 ## 映射类型
 
+通过`type`和`in`关键字把一个类型变换到另一个类型。比如把一个类型的所有属性映射到另一个类型上，但都变成可选的或者只读的属性。
+
+```ts
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];  //新类型的每个属性名和属性值类型都是原来类型的。但是加了不同的修饰符，此处加了readonly
+}
+type Partial<T> = {
+    [P in keyof T]?: T[P];  //此处加了'?'
+}
+type ReadonlyPerson = Readonly<Person>; //再命名一个新类型
+type PersonPartial = Partial<Person>;
+```
+
 ## Symbol类型
+
+```ts
+let sym1 = Symbol();      //通过Symbol构造函数创建
+let sym2 = Symbol("key"); //可以指定名称
+let sym3 = Symbol("key"); //sym2 === sym3是false，虽然他们有同样的key；Symbol是不可变的、唯一的
+let obj = {
+    [sym1]: "value"      //symbol可以像字符串一样当作对象的属性名
+};
+console.log(obj[sym]); // "value"。获取symbol的属性值时只能通过[]来获取
+class C {
+    [sym2]() {  //symbol也可以作为成员函数名称
+        return "Something";
+    }
+}
+let c = new C();
+let sth = c[sym2](); //通过symbol来调用函数
+
+console.log(C[Symbol.hasInstance](obj)) //false 因为obj不是C类的实例；Symbol.hasInstance是内建Symbol之一
+console.log(C[Symbol.hasInstance](c))   //true  c是C类的实例；这儿必须是类或者构造函数才有Symbol.hasInstance这个Symbol属性
+```
+
+## 可迭代类型
+
+当一个对象实现了Symbol.iterator属性时就认为是可迭代的。一些内建的类型已经实现了，比如Array、Map、Set、String等等。  
+可迭代类型对象的键可以通过`for in`访问，键值可以通过`for of`访问。
+
+```ts
+let list = ['four', 'five', 'six'];
+for (let i in list) {   //for in访问的是对象的键
+    console.log(i); // 0, 1, 2,
+}
+for (let i of list) {   //for of访问的是对象的键对应的值
+    console.log(i); // 'four', 'five', 'six'
+}
+
+let pets = new Set(["Cat", "Dog", "Hamster"]);
+pets["species"] = "mammals";
+
+for (let pet in pets) {
+    console.log(pet); // "species"。 Set对象默认没有键。
+}
+for (let pet of pets) {
+    console.log(pet); // "Cat", "Dog", "Hamster"。但是有值。
+}
+```
