@@ -15,6 +15,7 @@ repo：<https://github.com/meizilp/TypeScript-Handbook>
 1. [函数](05functions)
 1. [泛型](06generics)
 1. [高级类型](07advanced_types)
+1. [模块](08modules)
 
 ## 其它的电子书
 
