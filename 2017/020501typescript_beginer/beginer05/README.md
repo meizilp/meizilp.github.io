@@ -16,6 +16,7 @@ repo：<https://github.com/meizilp/TypeScript-Handbook>
 1. [泛型](06generics)
 1. [高级类型](07advanced_types)
 1. [模块](08modules)
+1. [声明文件](09declaration_files)
 
 ## 其它的电子书
 

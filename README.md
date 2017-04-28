@@ -2,6 +2,10 @@
 
 <https://github.com/meizilp/meizilp.github.io>
 
+## 2017年4月27日
+
+1. [Typescript入门-Typescript手册-声明文件](2017/020501typescript_beginer/beginer05/09declaration_files)
+
 ## 2017年4月9日
 
 1. [Typescript入门-Typescript手册-模块](2017/020501typescript_beginer/beginer05/08modules)
