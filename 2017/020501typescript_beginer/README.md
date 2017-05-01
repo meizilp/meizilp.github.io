@@ -25,4 +25,6 @@
 
 见：[《Typescript 手册》](beginer05)
 
-## 6. Web工程实战
+## 6. 使用Typescript开发Node
+
+见：[《使用Typescript开发Node》](beginer06)
