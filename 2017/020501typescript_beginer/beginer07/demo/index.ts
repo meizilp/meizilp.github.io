@@ -2,6 +2,7 @@ import * as express from "express"
 import * as http from "http"
 import fibo from "./fibo"
 
+
 let count = 0
 function read(res) {
   ++count
@@ -23,6 +24,9 @@ function read(res) {
 }
 
 let app = express()
+
+app.use()
+app.all()
 
 app.get('/', function (req, res) {
   res.send('Hello Express!')
