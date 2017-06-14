@@ -51,7 +51,35 @@ app.listen(3000, function () {  //启动服务在3000端口listen
 
 ### 路由路径
 
-### 路由处理函数
+#### 字符串路由路径
+
+/ 根路径
+/about 目录 /about
+
+#### 字符串模式路由路径
+
+传入时注意有引号。  
+'/ab?cd' 包含0个或者1个b。匹配/acd或者/abcd。  
+'/ab+cd' 包含至少1个b。匹配/abcd或/abbcd类似的。  
+'/ab*cd' ab和cd之间内容无所谓。  
+'/ab(cd)?e' 包含0个或者1个cd。匹配/abe或者/abcde。  
+
+#### 正则表达式路由路径
+
+传入时没有引号，直接以'/'开头(JS中的正则表达式直接量定义方法)。  
+参考：<http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp>  
+
+/abc/ 所有路径中包含abc的。比如/nnabcnn
+/abc/i 所有路径中包含abc的，忽略大小写。比如/nnabCnn
+/.*fly$/ 以fly结尾的
+
+### 路由参数
+
+参考：<https://www.npmjs.com/package/path-to-regexp>  
+
+### 路由对象
+
+### 路由处理
 
 一个路由可以有多个路由处理函数；  
 前一个路由函数中调用了`next()`，则后一个路由函数才会被调用。
@@ -64,8 +92,6 @@ app.listen(3000, function () {  //启动服务在3000端口listen
 则不会影响node为新的请求提供服务（chrome浏览器有额外的现象，同一个路径如果前一个没返回，
 chrome不会发出新请求，看上去就好像所有请求都被堵塞了一样，实际上如果换个路由路径，则可以
 看到新的请求马上被响应。edge浏览器没有发现这种行为。）
-
-## 中间件
 
 ## 静态文件
 
