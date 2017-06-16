@@ -20,6 +20,10 @@ app.all('/too', (req, res, next) => {
   next()
 })
 
+app.get("/icon", (req, res) => {
+  res.json(req.params)
+})
+
 app.use('/birds', birds)
 
 app.listen(3000, function () {
