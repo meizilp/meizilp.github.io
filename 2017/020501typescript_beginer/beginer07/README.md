@@ -2,7 +2,7 @@
 
 ## Node的事件循环
 
-NodeJS本身只有一个事件主循环，所有的事件都是依次执行，如果前面的事件堵塞那么后面的事件不会得到处理。  
+NodeJS本身只有一个事件主循环，所有的事件都是依次执行，如果前面的事件堵塞那么后面的事件不会得到处理。
 
 1. 能否通过`setTimeout`启动定时器解决堵塞的问题？  
    不能。  
@@ -51,60 +51,65 @@ app.listen(3000, function () {  //启动服务在3000端口listen
 
 ### 路由路径
 
-#### 字符串路由路径
+1. 字符串路由路径  
+  '/' 根路径  
+  '/about' 目录 /about
+1. 字符串模式路由路径  
+  传入时注意有引号。  
+  '/ab?cd' 包含0个或者1个b。匹配/acd或者/abcd。  
+  '/ab+cd' 包含至少1个b。匹配/abcd或/abbcd类似的。  
+  '/ab*cd' ab和cd之间内容无所谓。  
+  '/ab(cd)?e' 包含0个或者1个cd。匹配/abe或者/abcde。  
+1. 正则表达式路由路径  
+  传入时没有引号，直接以'/'开头(JS中的正则表达式直接量定义方法)。  
+  参考：<http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp>  
+  /abc/ 所有路径中包含abc的。比如/nnabcnn  
+  /abc/i 所有路径中包含abc的，忽略大小写。比如/nnabCnn  
+  /.*fly$/ 以fly结尾的
+1. 路由参数  
+  参考：<https://www.npmjs.com/package/path-to-regexp>  
+  这个库会把express风格的路径转为正则表达式和参数数组，在express中不支持这个库中的通配符。  
+  参数名称前增加冒号，类似于`:foo`，那么就定义了一个命名参数。这个参数放到路径中，以`/`分割。  
+  命名参数的名字只能由字母、数字和下划线组成。  
+  `/:foo/:bar` 这个路径定义了两个参数。如果实际路径是`/foo/plane`，那就会和`/foo`这个路径匹配，并且`bar`的值是`plane`。  
+  命名参数的值可以通过`req.params.参数名`类似的形式获得到，比如上面的例子`req.params.bar`的值就是`plane`。  
+  `/:foo?` 表示foo是可选参数，如果没传递值就是`undefined`。
+  `/icon-:res(\\d+).png` 找到`:`后面`res`就是参数名称；`d+`限定只有数字类型的才符合这个路由。比如`/icon-77.png`符合，但是`/icon-aa.png`不符合。  
 
-/ 根路径
-/about 目录 /about
+### 路由响应函数
 
-#### 字符串模式路由路径
+`function (req,res) {}` 或  
+`function (req,res,next) {next()}` 形式。  
+ 第2种形式中`next`和`req`、`res`一样都是调用者传递过来的实参。
 
-传入时注意有引号。  
-'/ab?cd' 包含0个或者1个b。匹配/acd或者/abcd。  
-'/ab+cd' 包含至少1个b。匹配/abcd或/abbcd类似的。  
-'/ab*cd' ab和cd之间内容无所谓。  
-'/ab(cd)?e' 包含0个或者1个cd。匹配/abe或者/abcde。  
+## 中间件
 
-#### 正则表达式路由路径
+`function (req, res, next) {next()}` 形式。
 
-传入时没有引号，直接以'/'开头(JS中的正则表达式直接量定义方法)。  
-参考：<http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp>  
-
-/abc/ 所有路径中包含abc的。比如/nnabcnn
-/abc/i 所有路径中包含abc的，忽略大小写。比如/nnabCnn
-/.*fly$/ 以fly结尾的
-
-### 路由参数
-
-参考：<https://www.npmjs.com/package/path-to-regexp>  
-这个库会把express风格的路径转为正则表达式和参数数组，在express中不支持这个库中的通配符。  
-
-#### 命名路由参数
-
-参数名称前增加冒号，类似于`:foo`，那么就定义了一个命名参数。这个参数放到路径中，以`/`分割。
-命名参数的名字只能由字母、数字和下划线组成。  
-
-`/:foo/:bar` 这个路径定义了两个参数。如果实际路径是`/foo/plane`，那就会和`/foo`这个路径匹配，并且`bar`的值是`plane`。  
-命名参数的值可以通过`req.params.参数名`类似的形式获得到，比如上面的例子`req.params.bar`的值就是`plane`。  
-
-`/:foo?` 表示foo是可选参数，如果没传递值就是`undefined`。可选参数只能在尾部有一个，多了也没用，因为路径实际的值无法跳过中间的。  
-
-`/icon-:res(\\d+).png` 找到`:`后面`res`就是参数名称；`d+`限定只有数字类型的才符合这个路由。比如`/icon-77.png`符合，但是`/icon-aa.png`不符合。  
+## 路由处理
 
 ### 路由对象
 
-### 路由处理
+在Express中App实际上是对一个路由对象进行了封装。  
+Router对象包含一个Stack数组，里面每个元素都是一个Layer对象；  
+Layer有一个route属性，可以为undefined，也可以指向一个route对象；  
+router对象也包含一个stack数组，里面的每个元素也是一个Layer对象，但这里面的Layer对象没有route属性，多了method属性来保存http请求类型。
 
-一个路由可以有多个路由处理函数；  
-前一个路由函数中调用了`next()`，则后一个路由函数才会被调用。
+### 路由方法
 
-### 路由处理过程
+### 处理过程
 
-客户端访问路径，路由函数依次被调用.  
+客户端访问路径，路由处理函数依次被调用.  
+获取参数
 在res.send或者res.end后客户端得到数据，否则客户端会一直等待。  
 在res没有send或者end时，如果路由处理函数没有堵塞（比如在等待异步IO操作就不会堵塞），
 则不会影响node为新的请求提供服务（chrome浏览器有额外的现象，同一个路径如果前一个没返回，
 chrome不会发出新请求，看上去就好像所有请求都被堵塞了一样，实际上如果换个路由路径，则可以
 看到新的请求马上被响应。edge浏览器没有发现这种行为。）
+
+（？？如果同一个路由，有多个Layer，前面的Layer不调用next，那么后续的是否还能执行？中间件？）  
+
+### 模块化路由
 
 ## 静态文件
 
