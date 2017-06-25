@@ -113,6 +113,12 @@ chrome不会发出新请求，看上去就好像所有请求都被堵塞了一�
 
 ## 静态文件
 
+通过`express.static`中间件来完成静态文件的访问。  
+`app.use(express.static('public'))`，那么`public`目录下的文件都可以通过url访问了，比如`http://localhost:3000/hello.html`（注意url中不包含存放静态文件的目录名）。  
+如果有多个静态文件目录，那么可以多次调用`express.static`中间件函数，Express会按照设置时的顺序依次在目录中查找文件。  
+虚拟url路径：通过`app.use('/static', express.static('public'))`形式可以创建虚拟路径前缀，这时url中需要改成`http://localhost:3000/static/hello.html`类似的形式。从路由匹配上也可以理解，`static`路由被`express.static`中间件处理。  
+绝对资源路径：`app.use(express.static(__dirname+'/public'))`，node启动进程时所在的目录(可能和程序不在一个目录)会影响相对路径，所以使用绝对资源路径(通过`__dirname`组合路径)定位资源更安全。
+
 ## 错误处理
 
 比如访问google超时的错误如何捕获？
