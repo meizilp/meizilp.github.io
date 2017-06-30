@@ -82,20 +82,20 @@ app.listen(3000, function () {  //启动服务在3000端口listen
 `function (req,res,next) {next()}` 形式。  
  第2种形式中`next`和`req`、`res`一样都是调用者传递过来的实参。
 
-## 中间件
-
-`function (req, res, next) {next()}` 形式。
-
 ## 路由处理
 
 ### 路由对象
 
 在Express中App实际上是对一个路由对象进行了封装。  
-Router对象包含一个Stack数组，里面每个元素都是一个Layer对象；  
+Router对象包含一个Stack数组，里面每个元素都是一个Layer对象(A类Layer)；  
 Layer有一个route属性，可以为undefined，也可以指向一个route对象；  
-router对象也包含一个stack数组，里面的每个元素也是一个Layer对象，但这里面的Layer对象没有route属性，多了method属性来保存http请求类型。
+router对象也包含一个stack数组，里面的每个元素也是一个Layer对象(B类Layer)，但这里面的Layer对象没有route属性，多了method属性来保存http请求类型。
 
 ### 路由方法
+
+Express支持对应HTTP METHOD的路由方法，比如`app.get()`等。  
+通过路由方法把路由响应函数和路由路径、HTTP方法关联起来。  
+`app.all()`会把所有的HTTP METHOD都关联到一个函数中，此时会在Layer中增加很多route对象。  
 
 ### 处理过程
 
@@ -108,8 +108,21 @@ chrome不会发出新请求，看上去就好像所有请求都被堵塞了一�
 看到新的请求马上被响应。edge浏览器没有发现这种行为。）
 
 （？？如果同一个路由，有多个Layer，前面的Layer不调用next，那么后续的是否还能执行？中间件？）  
+  不能。
+  next()之后还能执行代码吗？可以
+
+next('route')
+next('其它字符串') 会转到错误处理
 
 ### 模块化路由
+
+## 中间件
+
+`function (req, res, next) {next()}` 形式。
+
+### 使用中间件
+
+### app.use和app.all的不同
 
 ## 静态文件
 

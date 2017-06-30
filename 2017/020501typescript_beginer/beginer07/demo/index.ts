@@ -13,6 +13,26 @@ app.get('/foo', function foo_get(req, res) {
 })
 
 app.use('/boo', function boo_use(req, res, next) {
+  console.log("boo1")
+  next()
+})
+
+// app.use('/boo', function boo_use(req, res, next) {
+//   console.log("boo2")
+//   next('route')
+//   console.log("boo2-2")
+// }, function boo_use2(req, res, next) {
+//   console.log("boo2i2")
+// })
+
+app.use('/boo', function boo_use(req, res, next) {
+  console.log("boo2")
+  next('route')
+  console.log("boo2-2")
+})
+
+app.use('/boo', function boo_use(req, res, next) {
+  console.log("boo3")
   next()
 })
 
@@ -25,6 +45,11 @@ app.get("/icon", (req, res) => {
 })
 
 app.use('/birds', birds)
+
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Something wrong')
+})
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
