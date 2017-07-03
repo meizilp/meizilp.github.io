@@ -97,10 +97,16 @@ Express支持对应HTTP METHOD的路由方法，比如`app.get()`等。
 通过路由方法把路由响应函数和路由路径、HTTP方法关联起来。  
 路由方法每次可以关联一个或者多个响应函数。  
 每一个路由方法都会在Router对象的Stack数组中增加一个Layer对象（A类），即使同时关联了多个响应函数也是只增加一个A类Layer对象。  
-通过路由方法增加的Layer对象（A类）都有一个route属性。  
+通过路由方法增加的Layer对象（A类）都有一个route属性，route属性中的stack数组根据关联的响应函数数量包含有一个或多个Layer对象(B类)。  
 `app.all()`会把所有的HTTP METHOD都关联上，此时会在Router的Stack数组中增加一个Layer对象（A类），这个Layer对象(A类)中的route属性中的stack数组中又包含数十个Layer对象（B类）。  
+同一个路由路径有多种方法设置多个响应函数：  
+  1. 多次调用路由方法。采用这种方式时，每调用一次路由方法都会在Router对象的Stack数组中增加一个Layer对象(A类)，最终增加多个。每个A类Layer对象中包含route属性，route属性中的stack数组包含一个B类Layer对象。
+  1. 把多个函数或者把元素都是函数的数组作为参数来调用路由方法。采用这种方式时，只会在Router对象的Stack数组中增加一个Layer对象(A类)，这个A类Layer对象也包含route属性，route属性中的stack数组包含多个B类Layer对象。
+  1. 采用`app.route()`函数，把多个方法串起来。采用这种方式时效果等同于第二种。
 
 ### 模块化路由
+
+通过`express.Router()`可以得到一个router对象，这个router对象也可以通过路由方法关联响应函数；在router对象中路由路径都是相对于此router被挂载时的路径；此router导出后可以通过`app.use()`来进行挂载。
 
 ### 中间件
 
@@ -108,26 +114,24 @@ Express支持对应HTTP METHOD的路由方法，比如`app.get()`等。
 
 ### 使用中间件
 
+通过`app.use()`将中间件和路径关联。
+
 ### app.use和app.all的不同
 
-app.use每一个都会新建一个Layer(A类)，如果关联多个函数那么就会增加多个Layer(A类)
+1. 路径匹配规则不一样：`app.use()`路径只匹配前缀；`app.all()`需要完全匹配。比如：app.use("/product",mymiddleware) 只要product开头 /product、/product/a 、/product/a/b都能匹配。
+app.all( "/product" , handler) 那么就只能匹配/product了，不能匹配/product/a之类的；
+app.all( "/product/*" , handler); 能匹配/product/a、/product/a/b，但是不能匹配/product。
+1. 创建Layer对象的数量规则不一样：`app.all()`无论使用多少个函数作为参数，只创建一个A类Layer对象；`app.use()`如果有多个函数作为参数，那么会创建多个A类Layer对象。
 
 ### 路由处理过程
 
-客户端访问路径，路由处理函数依次被调用.  
-获取参数
-在res.send或者res.end后客户端得到数据，否则客户端会一直等待。  
-在res没有send或者end时，如果路由处理函数没有堵塞（比如在等待异步IO操作就不会堵塞），
-则不会影响node为新的请求提供服务（chrome浏览器有额外的现象，同一个路径如果前一个没返回，
-chrome不会发出新请求，看上去就好像所有请求都被堵塞了一样，实际上如果换个路由路径，则可以
-看到新的请求马上被响应。edge浏览器没有发现这种行为。）
-
-（？？如果同一个路由，有多个Layer，前面的Layer不调用next，那么后续的是否还能执行？中间件？）  
-  不能。
-  next()之后还能执行代码吗？可以
-
-next('route') 等同于 next()， 在app.use时，在app.get时呢？
-next('其它字符串') 会转到错误处理
+1. 客户端访问路径，A类Layer对象被遍历。
+1. 如果A类Layer对象的路径匹配，那么调用响应函数。  
+1. 响应函数中可以通过`req.body`获取`post`过来的参数，通过`req.query`获取通过url传递参数,通过`req.params`获取通过路由参数传递过来的参数。
+1. 在`res.send`或者`res.end`后客户端得到数据，否则客户端会一直等待。在res没有send或者end时，如果路由处理函数没有堵塞（比如在等待异步IO操作），则不会影响node为新的请求提供服务（chrome浏览器有额外的现象，同一个路径如果前一个没返回，chrome不会发出新请求，看上去就好像所有请求都被堵塞了一样，实际上如果换个路由路径，则可以看到新的请求马上被响应。edge浏览器没有发现这种行为。）
+1. 同一个路由路径如果有多个响应函数，那么前一个响应函数要调用`next()`，后一个响应函数才会被执行，并且执行后仍然会返回到上一个响应函数中继续执行。
+1. `next('route')`告知当前A类Layer已经处理完毕，即使有尚未遍历的B类Layer也不用管了，继续下一个A类Layer来处理。因为`app.use()`挂载时每个函数都会创建一个A类Layer，并且此A类Layer没有B类Layer，所以对于`app.use()`挂载的响应函数中的`next('route')`等同于`next()`，都是继续下一个A类Layer处理；而通过`app.get()`类似的方法挂载的响应函数，因为A类Layer中可能包含多个B类Layer，此时`next('route')`的效果就和`next()`不一样了，此时`next()`是调用下一个B类Layer，如果所有的B类Layer都调用完成了，就是此A类Layer处理完毕，而`next('route')`在这个时候就是不再调用剩下的B类Layer，直接标记此A类Layer处理完毕。
+1. next('其它字符串') 会转到错误处理
 
 ## 静态文件
 
