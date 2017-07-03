@@ -86,18 +86,33 @@ app.listen(3000, function () {  //启动服务在3000端口listen
 
 ### 路由对象
 
-在Express中App实际上是对一个路由对象进行了封装。  
-Router对象包含一个Stack数组，里面每个元素都是一个Layer对象(A类Layer)；  
-Layer有一个route属性，可以为undefined，也可以指向一个route对象；  
-router对象也包含一个stack数组，里面的每个元素也是一个Layer对象(B类Layer)，但这里面的Layer对象没有route属性，多了method属性来保存http请求类型。
+在Express中App实际上是对一个Router路由对象进行了封装。  
+Router对象包含一个Stack数组，里面每个元素都是一个Layer对象(A类)；  
+Layer(A类)有一个route属性，可以为undefined，也可以指向一个route对象；  
+router对象也包含一个stack数组，里面的每个元素也是一个Layer对象(B类)。但B类Layer对象没有route属性，多了method属性来保存http请求类型。
 
 ### 路由方法
 
 Express支持对应HTTP METHOD的路由方法，比如`app.get()`等。  
 通过路由方法把路由响应函数和路由路径、HTTP方法关联起来。  
-`app.all()`会把所有的HTTP METHOD都关联到一个函数中，此时会在Layer中增加很多route对象。  
+路由方法每次可以关联一个或者多个响应函数。  
+每一个路由方法都会在Router对象的Stack数组中增加一个Layer对象（A类），即使同时关联了多个响应函数也是只增加一个A类Layer对象。  
+通过路由方法增加的Layer对象（A类）都有一个route属性。  
+`app.all()`会把所有的HTTP METHOD都关联上，此时会在Router的Stack数组中增加一个Layer对象（A类），这个Layer对象(A类)中的route属性中的stack数组中又包含数十个Layer对象（B类）。  
 
-### 处理过程
+### 模块化路由
+
+### 中间件
+
+`function (req, res, next) {next()}` 形式。
+
+### 使用中间件
+
+### app.use和app.all的不同
+
+app.use每一个都会新建一个Layer(A类)，如果关联多个函数那么就会增加多个Layer(A类)
+
+### 路由处理过程
 
 客户端访问路径，路由处理函数依次被调用.  
 获取参数
@@ -111,18 +126,8 @@ chrome不会发出新请求，看上去就好像所有请求都被堵塞了一�
   不能。
   next()之后还能执行代码吗？可以
 
-next('route')
+next('route') 等同于 next()， 在app.use时，在app.get时呢？
 next('其它字符串') 会转到错误处理
-
-### 模块化路由
-
-## 中间件
-
-`function (req, res, next) {next()}` 形式。
-
-### 使用中间件
-
-### app.use和app.all的不同
 
 ## 静态文件
 

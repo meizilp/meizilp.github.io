@@ -8,8 +8,29 @@ app.get('/', function root_get(req, res) {
   res.send('Hello Express!')
 })
 
-app.get('/foo', function foo_get(req, res) {
-  res.send('Hello Express!')
+app.route('/book')
+.get((req, res) => {})
+.post((req, res) => {})
+.put((req, res) => {})
+
+app.get('/foo', function foo_get1(req, res, next) {
+  console.log('foo_get1 before')
+  next('route')
+  console.log('foo_get1 after')
+}, function foo_get11(req, res, next) {
+  console.log('foo_get11 before')
+  next()
+  console.log('foo_get11 after')
+})
+
+app.get('/foo', function foo_get2(req, res, next) {
+  console.log('foo_get2 before')
+  next()
+  console.log('foo_get2 after')
+})
+
+app.get('/foo', function foo_get3(req, res) {
+  res.send('Hello Express foo!')
 })
 
 app.use('/boo', function boo_use(req, res, next) {
@@ -17,26 +38,30 @@ app.use('/boo', function boo_use(req, res, next) {
   next()
 })
 
+app.use('/boo', function boo_use(req, res, next) {
+  console.log("boo2")
+  next('route')
+  console.log("after boo2")
+}, function boo_use2(req, res, next) {
+  console.log("boo2-1")
+  //next()
+}, function boo_user3(req, res, next){
+  console.log("boo2-2")
+  next()
+})
+
 // app.use('/boo', function boo_use(req, res, next) {
 //   console.log("boo2")
 //   next('route')
 //   console.log("boo2-2")
-// }, function boo_use2(req, res, next) {
-//   console.log("boo2i2")
 // })
-
-app.use('/boo', function boo_use(req, res, next) {
-  console.log("boo2")
-  next('route')
-  console.log("boo2-2")
-})
 
 app.use('/boo', function boo_use(req, res, next) {
   console.log("boo3")
   next()
 })
 
-app.all('/too', (req, res, next) => {
+app.all('/too', function too_all(req, res, next) {
   next()
 })
 
